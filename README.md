@@ -1,97 +1,57 @@
 # Shreya_Sharma_Grocery_Inventory_Manager
-# FreshMart Retail - Inventory Analytics System
-# Objective: Monitor stock, reduce overstock/shortages, and track purchases
+FreshMart Inventory Analytics System
 
-import pandas as pd
-import matplotlib.pyplot as plt
+Internship Project – Developed by Shreya Sharma  
+Organization: FreshMart Retail  
+Domain: Inventory Management & Analytics  
+Technology: Python, Pandas, Matplotlib
 
-# 1. Sample Inventory Dataset
-inventory_data = {
-    "Product ID": [101, 102, 103, 104],
-    "Product Name": ["Rice", "Wheat", "Oil", "Milk"],
-    "Category": ["Grains", "Grains", "Grocery", "Dairy"],
-    "Stock": [120, 80, 50, 30],
-    "Price (₹)": [45, 50, 120, 60]
-}
+---
 
-inventory_df = pd.DataFrame(inventory_data)
-print(" Current Inventory:\n", inventory_df)
+Project Overview
 
-# 2. Add New Product
-def add_product(pid, name, category, stock, price):
-    global inventory_df
-    new_row = pd.DataFrame([[pid, name, category, stock, price]],
-                           columns=inventory_df.columns)
-    inventory_df = pd.concat([inventory_df, new_row], ignore_index=True)
-    print(f" Product '{name}' added.")
+FreshMart Retail, a local grocery store chain, needed an efficient system to monitor and analyse inventory. This project delivers a Python-based Inventory Analytics System that helps manage stock levels, track purchases, and prevent overstocking or shortages with actionable insights.
 
-# 3. Update Stock
-def update_stock(pid, new_stock):
-    if pid in inventory_df['Product ID'].values:
-        inventory_df.loc[inventory_df['Product ID'] == pid, 'Stock'] = new_stock
-        print(f" Stock updated for Product ID {pid}.")
-    else:
-        print(" Product ID not found.")
+---
 
-# 4. Delete Product
-def delete_product(pid):
-    global inventory_df
-    if pid in inventory_df['Product ID'].values:
-        inventory_df = inventory_df[inventory_df['Product ID'] != pid]
-        print(f"🗑 Product ID {pid} deleted.")
-    else:
-        print(" Product ID not found.")
+Objectives
 
-# 5. Simulate Purchases
-purchase_log = []
+- Maintain an up-to-date record of all grocery items.
+- Track stock levels and generate low-stock alerts.
+- Log purchases and compute revenue summaries.
+- Visualize current stock for business insights.
 
-def record_purchase(pid, quantity):
-    global inventory_df, purchase_log
-    if pid in inventory_df['Product ID'].values:
-        stock = inventory_df.loc[inventory_df['Product ID'] == pid, 'Stock'].values[0]
-        if quantity <= stock:
-            inventory_df.loc[inventory_df['Product ID'] == pid, 'Stock'] -= quantity
-            price = inventory_df.loc[inventory_df['Product ID'] == pid, 'Price (₹)'].values[0]
-            total = quantity * price
-            purchase_log.append({"Product ID": pid, "Quantity": quantity, "Total Amount": total})
-            print(f" Purchase recorded. ₹{total} added.")
-        else:
-            print(" Insufficient stock.")
-    else:
-        print(" Product ID not found.")
+---
 
-# 6. Analytics - Stock Alerts
-def stock_alerts(threshold=40):
-    low_stock = inventory_df[inventory_df['Stock'] <= threshold]
-    if not low_stock.empty:
-        print(" Low Stock Alert:\n", low_stock)
-    else:
-        print(" All items sufficiently stocked.")
+Features
 
-# 7. Analytics - Sales Summary
-def sales_summary():
-    if not purchase_log:
-        print(" No purchases yet.")
-        return
-    df = pd.DataFrame(purchase_log)
-    summary = df.groupby("Product ID").agg({"Quantity": "sum", "Total Amount": "sum"}).reset_index()
-    print(" Sales Summary:\n", summary)
+| Feature             | Description |
+|---------------------|-------------|
+| Product Management  | Add, update, and delete products from inventory |
+| Stock Monitoring    | View current stock and set alert thresholds |
+| Purchase Logging    | Simulate and log customer purchases |
+| Sales Analytics     | Generate summary reports (quantity sold, revenue) |
+| Visual Dashboard    | Bar chart of stock levels using Matplotlib |
 
-# 8. Visual Analytics
-def plot_stock_status():
-    plt.figure(figsize=(8,5))
-    plt.bar(inventory_df['Product Name'], inventory_df['Stock'], color='skyblue')
-    plt.title(" Current Stock Levels")
-    plt.xlabel("Product")
-    plt.ylabel("Stock Quantity")
-    plt.grid(True)
-    plt.show()
+---
 
-# Example Usage
-add_product(105, "Sugar", "Grocery", 90, 40)
-update_stock(104, 25)
-record_purchase(101, 10)
-record_purchase(104, 5)
-stock_alerts()
-sales_summary()
-plot_stock_status()
+
+Sample Outputs
+
+- Low Stock Alert: Displays items with stock below threshold.
+- Sales Summary: Shows total quantity sold and revenue per product.
+- Bar Chart: Stock levels visualized using Matplotlib.
+
+---
+
+Technologies Used
+
+- Python: Programming Language
+- Pandas: Data manipulation and tabular structure
+- Matplotlib: Visualizations and analytics charts
+- Jupyter Notebook: Development and demonstration environment
+
+Acknowledgments
+
+This project was developed as part of an internship assignment to help FreshMart Retail optimize their grocery inventory system using data-driven approaches.
+
